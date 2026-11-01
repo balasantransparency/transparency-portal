@@ -150,22 +150,22 @@ function Office({ view }: { view: OfficeView }) {
           <dd>{lines ? <Link to={filter()} className="ocard-lines">{plural(lines, 'line')} →</Link> : <span className="muted">none</span>}</dd>
         </div>
         <div>
-          <dt className="label">NEP</dt>
+          <dt className="label">Office-wide NEP</dt>
           <dd className="num">{php(f?.nep_php)}</dd>
         </div>
         <div>
-          <dt className="label">House bill</dt>
+          <dt className="label">Office-wide House bill</dt>
           <dd className="num stat-accent">{php(f?.hgab3_php)}</dd>
         </div>
         <div>
-          <dt className="label">Change</dt>
+         <dt className="label">Office-wide change</dt>
           <dd className="num">{phpDelta(change)}</dd>
         </div>
       </dl>
 
       {groups.length > 0 && (
         <p className="ocard-groups">
-          {groups.map((c) => {
+          <strong>Office-wide project counts: </strong>{groups.map((c) => {
             const text = <><span className={`status-dot g-${c.group}`} aria-hidden="true" />{count(c.rows)} {c.label.charAt(0).toLowerCase() + c.label.slice(1)}</>;
             // These counts are the whole office's: link them only when all of its lines are in the portal.
             return query ? <Link key={c.group} to={filter(c.group)}>{text}</Link> : <span key={c.group}>{text}</span>;
@@ -173,7 +173,7 @@ function Office({ view }: { view: OfficeView }) {
         </p>
       )}
       <p className="ocard-note">
-        Named projects{f ? <>: {count(f.nep_records)} in the NEP, {count(f.hgab3_records)} in the House bill</> : null}.
+       Office-wide named projects{f ? <>: {count(f.nep_records)} in the NEP, {count(f.hgab3_records)} in the House bill.</> : '.'}
         {wholeNep != null && <> The whole office in the NEP: {php(wholeNep)}.</>}
         {unconfirmed > 0 && <> Includes {plural(unconfirmed, 'unconfirmed match', 'unconfirmed matches')} ({php(f?.annotations?.unconfirmed_php)}).</>}
         {held > 0 && <> {plural(held, 'line')} whose two versions name different offices {held === 1 ? 'is' : 'are'} not in these figures.</>}{' '}

@@ -113,7 +113,10 @@ export async function resolveScope(client: Client, config: PortalConfig): Promis
 
   const excludedKeys = new Map(exclude.map((e) => [e.key, e]));
   const excluded = exclude.map((exclusion) => ({ exclusion, project: byKey.get(exclusion.key) ?? null }));
-  const projects = [...byKey.values()].filter((p) => !excludedKeys.has(p.key)).sort(byHouseThenNep);
+ const projects = [...byKey.values()]
+  .filter((p) => !excludedKeys.has(p.key))
+  .filter((p) => p.reasons.some((r) => r.kind === 'place' && r.label === 'Balasan'))
+  .sort(byHouseThenNep);
 
   if (!meta) {
     // No queries ran (an empty scope): still return the API's meta for the footer.
